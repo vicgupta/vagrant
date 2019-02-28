@@ -1,1 +1,20 @@
-#Docker
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.box_check_update = false
+  
+  config.vm.network "public_network", bridge: 'Intel(R) Dual Band Wireless-AC 8265', ip: "192.168.1.13"
+
+  # config.vm.synced_folder "../data", "/vagrant_data"
+  
+  config.vm.provider "virtualbox" do |vb|
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y docker.io
+    apt-get upgrade -y
+  SHELL
+end
